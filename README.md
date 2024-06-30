@@ -15,3 +15,10 @@ Rodar os comendos dentro do diretório do projeto
 3. Instalar as bibliotecas:
 > pip install -r requirements.txt
 
+4. Criar arquivo .env
+* criar um arquivo .env na raiz do projeto
+* criar a variável com a credencial do banco de dados "DATABASE_URL=...." 
+
+5. Rodar a aplicação
+* no terminal, ainda com a .venv ativada
+> Flask run
