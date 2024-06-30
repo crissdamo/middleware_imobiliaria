@@ -58,8 +58,17 @@
         "responses": {
           "201": {
             "description": "Imobiliária criada com sucesso",
-            "schema": {
-              "$ref": "#/components/schemas/Imobiliaria"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Imobiliaria"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Imobiliaria"
+                }
+              }
             }
           },
           "400": {
@@ -96,8 +105,17 @@
         "responses": {
           "201": {
             "description": "Imóvel criado com sucesso",
-            "schema": {
-              "$ref": "#/components/schemas/Imovel"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Imovel"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Imovel"
+                }
+              }
             }
           },
           "400": {
