@@ -57,7 +57,10 @@
         ],
         "responses": {
           "201": {
-            "description": "Imobiliária criada com sucesso"
+            "description": "Imobiliária criada com sucesso",
+            "schema": {
+              "$ref": "#/components/schemas/Imobiliaria"
+            }
           },
           "400": {
             "description": "Requisição inválida"
@@ -92,7 +95,10 @@
         ],
         "responses": {
           "201": {
-            "description": "Imóvel criado com sucesso"
+            "description": "Imóvel criado com sucesso",
+            "schema": {
+              "$ref": "#/components/schemas/Imovel"
+            }
           },
           "400": {
             "description": "Requisição inválida"
