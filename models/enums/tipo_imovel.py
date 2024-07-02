@@ -1,7 +1,7 @@
 import enum
 
 class TipoImovelEnum(enum.Enum):
-    apartamento = 'Apartamento'
-    casa = 'Casa'
-    terreno = 'Terreno'
-    sala = 'Sala'
+    apartamento = 'apartamento'
+    casa = 'casa'
+    terreno = 'terreno'
+    sala = 'sala'

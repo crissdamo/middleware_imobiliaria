@@ -3,7 +3,7 @@ from sqlalchemy import Enum
 from models.enums.tipo_imovel import TipoImovelEnum
 
 
-class imovelModel(db.Model):
+class ImovelModel(db.Model):
     __tablename__ = "imovel"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,4 +21,4 @@ class imovelModel(db.Model):
     estado = db.Column(db.String(256), nullable=False)
     
     imobiliaria_id = db.Column(db.Integer, db.ForeignKey("imobiliaria.id"), unique=False, nullable=False)
-    imobiliaria = db.relationship("imobiliariaModel", back_populates="imoveis")
+    imobiliaria = db.relationship("ImobiliariaModel", back_populates="imoveis")

@@ -44,17 +44,17 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Imobiliária a ser adicionada",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Imobiliaria"
+        "requestBody": {
+          "description": "Imobiliária a ser adicionada.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Imobiliaria"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Imobiliária criada com sucesso",
@@ -131,6 +131,7 @@
         "type": "object",
         "required": [
           "nome_fantasia",
+          "razao_social",
           "cnpj",
           "telefone",
           "email"
@@ -138,7 +139,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "readOnly": true
           },
           "nome_fantasia": {
             "type": "string",

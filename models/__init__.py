@@ -1,2 +1,2 @@
 from models.imobiliaria import ImobiliariaModel
-from models.imovel import imovelModel
+from models.imovel import ImovelModel

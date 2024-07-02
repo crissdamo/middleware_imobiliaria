@@ -1,0 +1,3727 @@
+{
+    "components": {
+      "securitySchemes": {
+        "Bearer Auth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "Authorization",
+          "bearerFormat": "JWT",
+          "description": "Enter: **'Bearer &lt;JWT&gt;'**, where JWT is the access token"
+        }
+      },
+      "schemas": {
+        "Error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "integer",
+              "description": "Error code"
+            },
+            "status": {
+              "type": "string",
+              "description": "Error name"
+            },
+            "message": {
+              "type": "string",
+              "description": "Error message"
+            },
+            "errors": {
+              "type": "object",
+              "description": "Errors"
+            }
+          }
+        },
+        "PaginationMetadata": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer"
+            },
+            "total_pages": {
+              "type": "integer"
+            },
+            "first_page": {
+              "type": "integer"
+            },
+            "last_page": {
+              "type": "integer"
+            },
+            "page": {
+              "type": "integer"
+            },
+            "previous_page": {
+              "type": "integer"
+            },
+            "next_page": {
+              "type": "integer"
+            }
+          }
+        },
+        "Usuario": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string",
+              "writeOnly": true
+            },
+            "nome": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            }
+          },
+          "required": [
+            "email",
+            "nome",
+            "senha"
+          ]
+        },
+        "UsuarioTipos": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string",
+              "writeOnly": true
+            },
+            "nome": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "admin": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "equipe": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "sistema": {
+              "type": "boolean",
+              "readOnly": true
+            }
+          },
+          "required": [
+            "email",
+            "nome",
+            "senha"
+          ]
+        },
+        "UsuarioReturn": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/UsuarioTipos"
+            }
+          }
+        },
+        "PlainUsuarioLogin": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string",
+              "writeOnly": true
+            }
+          },
+          "required": [
+            "email",
+            "senha"
+          ]
+        },
+        "EmpresaUsuario": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "nome_fantasia": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "nome_fantasia"
+          ]
+        },
+        "PlainToken": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string"
+            },
+            "refresh_token": {
+              "type": "string"
+            }
+          }
+        },
+        "UsuarioToken": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string",
+              "writeOnly": true
+            },
+            "nome": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "admin": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "equipe": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "sistema": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "empresa": {
+              "$ref": "#/components/schemas/EmpresaUsuario"
+            },
+            "token": {
+              "$ref": "#/components/schemas/PlainToken"
+            }
+          },
+          "required": [
+            "senha"
+          ]
+        },
+        "UsuarioReturnToken": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/UsuarioToken"
+            }
+          }
+        },
+        "AceiteTermo": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "termo_id": {
+              "type": "integer"
+            },
+            "empresa_id": {
+              "type": "integer"
+            },
+            "aceite": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "empresa_id",
+            "termo_id"
+          ]
+        },
+        "PlainLocalizacao": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "rua": {
+              "type": "string"
+            },
+            "numero": {
+              "type": "string"
+            },
+            "bairro": {
+              "type": "string"
+            },
+            "cep": {
+              "type": "string"
+            },
+            "cidade": {
+              "type": "string"
+            },
+            "estado": {
+              "type": "string"
+            },
+            "complemento": {
+              "type": "string"
+            },
+            "latitude": {
+              "type": "string"
+            },
+            "longitude": {
+              "type": "string"
+            },
+            "url_localizacao": {
+              "type": "string",
+              "readOnly": true
+            }
+          },
+          "required": [
+            "bairro",
+            "cep",
+            "cidade",
+            "estado",
+            "latitude",
+            "longitude",
+            "numero",
+            "rua"
+          ]
+        },
+        "PainEcopontoDiaFuncionamento": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "dia_semana": {
+              "type": "string",
+              "enum": [
+                "dom",
+                "seg",
+                "ter",
+                "qua",
+                "qui",
+                "sex",
+                "sab"
+              ]
+            },
+            "hora_inicial": {
+              "type": "string",
+              "format": null,
+              "pattern": null
+            },
+            "hora_final": {
+              "type": "string",
+              "format": null,
+              "pattern": null
+            }
+          },
+          "required": [
+            "hora_final",
+            "hora_inicial"
+          ]
+        },
+        "PlainResiduo": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "icone": {
+              "type": "string"
+            },
+            "url_midia": {
+              "type": "string"
+            },
+            "recolhido_em_ecoponto": {
+              "type": "boolean",
+              "default": true
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            }
+          },
+          "required": [
+            "descricao"
+          ]
+        },
+        "PlainEmpresa": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "nome_fantasia": {
+              "type": "string"
+            },
+            "razao_social": {
+              "type": "string"
+            },
+            "cnpj": {
+              "type": "string"
+            },
+            "ramo_atuacao": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "rede_social": {
+              "type": "string"
+            },
+            "participacao_outros_projetos": {
+              "type": "boolean",
+              "default": false
+            },
+            "descricao_outros_projetos": {
+              "type": "string"
+            },
+            "nome_contato_responsavel": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string",
+              "writeOnly": true
+            },
+            "aceite_termo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AceiteTermo"
+              }
+            }
+          },
+          "required": [
+            "cnpj",
+            "email",
+            "nome_contato_responsavel",
+            "nome_fantasia",
+            "senha",
+            "telefone"
+          ]
+        },
+        "EcopontoGet": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "situacao": {
+              "type": "string",
+              "enum": [
+                "Em análise",
+                "Aprovado",
+                "Rejeitado"
+              ],
+              "readOnly": true
+            },
+            "nome": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "aberto_publico": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "localizacao": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainLocalizacao"
+              }
+            },
+            "dia_funcionamento": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PainEcopontoDiaFuncionamento"
+              }
+            },
+            "residuo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainResiduo"
+              }
+            },
+            "funcionamento": {
+              "type": "string"
+            },
+            "empresa": {
+              "$ref": "#/components/schemas/PlainEmpresa"
+            }
+          },
+          "required": [
+            "localizacao",
+            "nome"
+          ]
+        },
+        "EmpresaGet": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "nome_fantasia": {
+              "type": "string"
+            },
+            "razao_social": {
+              "type": "string"
+            },
+            "cnpj": {
+              "type": "string"
+            },
+            "ramo_atuacao": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "rede_social": {
+              "type": "string"
+            },
+            "participacao_outros_projetos": {
+              "type": "boolean",
+              "default": false
+            },
+            "descricao_outros_projetos": {
+              "type": "string"
+            },
+            "nome_contato_responsavel": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string",
+              "writeOnly": true
+            },
+            "aceite_termo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AceiteTermo"
+              }
+            },
+            "ecopontos": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EcopontoGet"
+              }
+            }
+          },
+          "required": [
+            "cnpj",
+            "email",
+            "nome_contato_responsavel",
+            "nome_fantasia",
+            "senha",
+            "telefone"
+          ]
+        },
+        "RetornoEmpresaGet": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/EmpresaGet"
+            }
+          }
+        },
+        "PlainEmpresaUpdate": {
+          "type": "object",
+          "properties": {
+            "nome_fantasia": {
+              "type": "string"
+            },
+            "razao_social": {
+              "type": "string"
+            },
+            "cnpj": {
+              "type": "string"
+            },
+            "ramo_atuacao": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "rede_social": {
+              "type": "string"
+            },
+            "participacao_outros_projetos": {
+              "type": "boolean",
+              "default": false
+            },
+            "descricao_outros_projetos": {
+              "type": "string"
+            },
+            "nome_contato_responsavel": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string"
+            },
+            "aceite_termo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AceiteTermo"
+              }
+            }
+          }
+        },
+        "RetornoPlainEmpresa": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/PlainEmpresa"
+            }
+          }
+        },
+        "RetornoListaEmpresa": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "Values": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/EmpresaGet"
+              }
+            }
+          }
+        },
+        "ItemResiduo": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "Ecoponto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "situacao": {
+              "type": "string",
+              "enum": [
+                "Em análise",
+                "Aprovado",
+                "Rejeitado"
+              ],
+              "readOnly": true
+            },
+            "nome": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "aberto_publico": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "localizacao": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainLocalizacao"
+              }
+            },
+            "dia_funcionamento": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PainEcopontoDiaFuncionamento"
+              }
+            },
+            "residuo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ItemResiduo"
+              }
+            }
+          },
+          "required": [
+            "localizacao",
+            "nome"
+          ]
+        },
+        "Empresa": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "nome_fantasia": {
+              "type": "string"
+            },
+            "razao_social": {
+              "type": "string"
+            },
+            "cnpj": {
+              "type": "string"
+            },
+            "ramo_atuacao": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "rede_social": {
+              "type": "string"
+            },
+            "participacao_outros_projetos": {
+              "type": "boolean",
+              "default": false
+            },
+            "descricao_outros_projetos": {
+              "type": "string"
+            },
+            "nome_contato_responsavel": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string",
+              "writeOnly": true
+            },
+            "aceite_termo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AceiteTermo"
+              }
+            },
+            "ecopontos": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Ecoponto"
+              }
+            }
+          },
+          "required": [
+            "cnpj",
+            "email",
+            "nome_contato_responsavel",
+            "nome_fantasia",
+            "senha",
+            "telefone"
+          ]
+        },
+        "RetornoEmpresa": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/Empresa"
+            }
+          }
+        },
+        "RetornoEcoponto": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/EcopontoGet"
+            }
+          }
+        },
+        "EcopontoLocalizacaoResiduo": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "situacao": {
+              "type": "string",
+              "enum": [
+                "Em análise",
+                "Aprovado",
+                "Rejeitado"
+              ],
+              "readOnly": true
+            },
+            "nome": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "aberto_publico": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "empresa_id": {
+              "type": "integer"
+            },
+            "localizacao": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainLocalizacao"
+              }
+            },
+            "residuo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ItemResiduo"
+              }
+            }
+          },
+          "required": [
+            "empresa_id",
+            "nome",
+            "residuo"
+          ]
+        },
+        "Paginacao": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer"
+            },
+            "page_size": {
+              "type": "integer"
+            },
+            "total": {
+              "type": "integer"
+            },
+            "previous": {
+              "type": "boolean"
+            },
+            "next": {
+              "type": "boolean"
+            }
+          }
+        },
+        "RetornoListaEcoponto": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "Values": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/EcopontoGet"
+              }
+            },
+            "pagination": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/Paginacao"
+              }
+            }
+          }
+        },
+        "EcopontoFuncionamento": {
+          "type": "object",
+          "properties": {
+            "ecoponto_id": {
+              "type": "integer"
+            },
+            "dia_funcionamento": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PainEcopontoDiaFuncionamento"
+              }
+            }
+          },
+          "required": [
+            "dia_funcionamento",
+            "ecoponto_id"
+          ]
+        },
+        "RetornoEcopontoFuncionamento": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/EcopontoFuncionamento"
+            }
+          }
+        },
+        "EcopontoResiduo": {
+          "type": "object",
+          "properties": {
+            "ecoponto_id": {
+              "type": "integer"
+            },
+            "residuo": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ItemResiduo"
+              }
+            }
+          },
+          "required": [
+            "ecoponto_id",
+            "residuo"
+          ]
+        },
+        "RetornoEcopontoResiduo": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "Values": {
+              "$ref": "#/components/schemas/EcopontoResiduo"
+            }
+          }
+        },
+        "EcopontoLocalizacao": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "situacao": {
+              "type": "string",
+              "enum": [
+                "Em análise",
+                "Aprovado",
+                "Rejeitado"
+              ],
+              "readOnly": true
+            },
+            "nome": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "aberto_publico": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "empresa_id": {
+              "type": "integer"
+            },
+            "localizacao": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainLocalizacao"
+              }
+            }
+          },
+          "required": [
+            "empresa_id",
+            "nome"
+          ]
+        },
+        "RetornoListaEcopontoLocalizacao": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "Values": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/EcopontoLocalizacao"
+              }
+            },
+            "pagination": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/Paginacao"
+              }
+            }
+          }
+        },
+        "EcopontoSituacao": {
+          "type": "object",
+          "properties": {
+            "situacao": {
+              "type": "string"
+            },
+            "situacao_enum": {
+              "type": "string"
+            }
+          }
+        },
+        "RetornoEcopontoSituacao": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/EcopontoSituacao"
+            }
+          }
+        },
+        "EcopontoLista": {
+          "type": "object",
+          "properties": {
+            "situacao": {
+              "type": "string"
+            },
+            "situacao_enum": {
+              "type": "string"
+            },
+            "ecopontos": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EcopontoGet"
+              }
+            },
+            "total": {
+              "type": "integer"
+            }
+          }
+        },
+        "EcopontoListaSituacao": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EcopontoLista"
+              }
+            }
+          }
+        },
+        "Categoria": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "icone": {
+              "type": "string"
+            },
+            "url_midia": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "residuo": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/PlainResiduo"
+              }
+            }
+          },
+          "required": [
+            "descricao"
+          ]
+        },
+        "RetornoCategoria": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "values": {
+              "$ref": "#/components/schemas/Categoria"
+            }
+          }
+        },
+        "PlainCategoria": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "icone": {
+              "type": "string"
+            },
+            "url_midia": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            }
+          },
+          "required": [
+            "descricao"
+          ]
+        },
+        "Residuo": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "icone": {
+              "type": "string"
+            },
+            "url_midia": {
+              "type": "string"
+            },
+            "recolhido_em_ecoponto": {
+              "type": "boolean",
+              "default": true
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "categoria": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainCategoria"
+              }
+            }
+          },
+          "required": [
+            "categoria",
+            "descricao"
+          ]
+        },
+        "RetornoResiduo": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/Residuo"
+            }
+          }
+        },
+        "ItemCategoria": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "ResiduoPost": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "icone": {
+              "type": "string"
+            },
+            "url_midia": {
+              "type": "string"
+            },
+            "recolhido_em_ecoponto": {
+              "type": "boolean",
+              "default": true
+            },
+            "ativo": {
+              "type": "boolean",
+              "readOnly": true
+            },
+            "categoria": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ItemCategoria"
+              }
+            }
+          },
+          "required": [
+            "categoria",
+            "descricao"
+          ]
+        },
+        "PlainSecaoPublicacao": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "titulo": {
+              "type": "string"
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "url_media": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "required": [
+            "descricao",
+            "titulo"
+          ]
+        },
+        "Publicacao": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "titulo": {
+              "type": "string"
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "url_media": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "categoria_id": {
+              "type": "integer"
+            },
+            "residuo_id": {
+              "type": "integer"
+            },
+            "secao_publicacao": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainSecaoPublicacao"
+              }
+            }
+          },
+          "required": [
+            "descricao",
+            "titulo"
+          ]
+        },
+        "PublicacaoGet": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/Publicacao"
+            }
+          }
+        },
+        "PlainPublicacao": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "titulo": {
+              "type": "string"
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "url_media": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "categoria_id": {
+              "type": "integer"
+            },
+            "residuo_id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "descricao",
+            "titulo"
+          ]
+        },
+        "PublicacaoGetList": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Publicacao"
+              }
+            },
+            "pagination": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/Paginacao"
+              }
+            }
+          }
+        },
+        "PublicacaoPost": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "titulo": {
+              "type": "string"
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "url_media": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "categoria_id": {
+              "type": "integer"
+            },
+            "residuo_id": {
+              "type": "integer"
+            },
+            "secao_publicacao": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainSecaoPublicacao"
+              }
+            }
+          },
+          "required": [
+            "descricao",
+            "titulo"
+          ]
+        },
+        "SecaoPublicacaoGet": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/PlainSecaoPublicacao"
+            }
+          }
+        },
+        "PlainArtePublicitaria": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "url_midia": {
+              "type": "string"
+            },
+            "disponibilizar_ecoponto": {
+              "type": "boolean",
+              "default": true
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            },
+            "data_inicio": {
+              "type": "string",
+              "format": "date"
+            },
+            "data_final": {
+              "type": "string",
+              "format": "date"
+            },
+            "residuo_id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "descricao"
+          ]
+        },
+        "PlainArtePublicitariaGet": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/PlainArtePublicitaria"
+            }
+          }
+        },
+        "PlainArtePublicitariaGetList": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainArtePublicitaria"
+              }
+            },
+            "pagination": {
+              "type": "array",
+              "readOnly": true,
+              "items": {
+                "$ref": "#/components/schemas/Paginacao"
+              }
+            }
+          }
+        },
+        "PlainTermo": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "readOnly": true
+            },
+            "titulo": {
+              "type": "string"
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "ativo": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "descricao",
+            "titulo"
+          ]
+        },
+        "RetornoTermo": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "value": {
+              "$ref": "#/components/schemas/PlainTermo"
+            }
+          }
+        },
+        "RetornoTermoLista": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "readOnly": true
+            },
+            "status": {
+              "type": "string",
+              "readOnly": true
+            },
+            "message": {
+              "type": "string",
+              "readOnly": true
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PlainTermo"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "UNPROCESSABLE_ENTITY": {
+          "description": "Unprocessable Entity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        },
+        "DEFAULT_ERROR": {
+          "description": "Default error response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "/registrar/admin": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioReturn"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Usuários"
+          ]
+        }
+      },
+      "/registrar/voluntario": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioReturn"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Usuários"
+          ]
+        }
+      },
+      "/registrar/usuariosistema": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioReturn"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Usuários"
+          ]
+        }
+      },
+      "/login": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UsuarioReturnToken"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainUsuarioLogin"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Usuários"
+          ]
+        }
+      },
+      "/refresh": {
+        "post": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Usuários"
+          ],
+          "security": [
+            {
+              "Bearer Auth": []
+            }
+          ]
+        }
+      },
+      "/logout": {
+        "post": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Usuários"
+          ],
+          "security": [
+            {
+              "Bearer Auth": []
+            }
+          ]
+        }
+      },
+      "/empresa/{empresa_id}": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEmpresaGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Empresas"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoPlainEmpresa"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainEmpresaUpdate"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Empresas"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Empresas"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "empresa_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/empresa": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoListaEmpresa"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Empresas"
+          ]
+        },
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoPlainEmpresa"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "description": "Cria um novo registro no banco de dados.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainEmpresa"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Empresas"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Empresas"
+          ]
+        }
+      },
+      "/empresa/ecoponto": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEmpresa"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "description": "Super rota: cria um novo registro no banco de dados para empresa e ecoponto e todas as suas dependências.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empresa"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Empresas"
+          ]
+        }
+      },
+      "/ecoponto/{ecoponto_id}": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcoponto"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Busca um ecoponto pelo seu ID.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID.\nSe ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_id (int): O ID do ecoponto a ser buscado.\n\n**Retorna:**\n    Um objeto JSON com as informações do ecoponto.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcoponto"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EcopontoLocalizacaoResiduo"
+                }
+              }
+            }
+          },
+          "summary": "Atualiza um ecoponto pelo seu ID.",
+          "description": "**Descrição:** Atualiza um ecoponto pelo seu ID.\nSe ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_data : dict\n        Dados recebidos para atualizar o ecoponto.\n    ecoponto_id : int\n        ID do ecoponto a ser atualizado.\n\n**Retorna:**\n    Um objeto JSON com as informações do ecoponto.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Deleta um ecoponto pelo seu ID.",
+          "description": "**Descrição:** Deleta o ecoponto pelo seu ID.\nSe ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_id (int): O ID do ecoponto a ser deletado.\n\n**Retorna:**\n    Um objeto JSON com mensagem de confirmação.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ecoponto_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/ecoponto": {
+        "get": {
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "page_size",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "residuo_id",
+              "schema": {
+                "type": "string"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "localizacao",
+              "schema": {
+                "type": "string"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/RetornoListaEcoponto"
+                    }
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna uma lista paginada de ecopontos filtrados pelos critérios informados.",
+          "description": "**Descrição**: Filtra os ecopontos pelo ID do resíduo, se informado, e pela localização, se informado\n    (pesquisa termo informado em qualquer um dos campos da localização do ecoponto).\n    Serão retornados apenas ecopontos ativos e com a situação \"aprovado\"\n\n**Parâmetros**:\n    query_args (dict): Argumentos de consulta e para paginação.\n        - residuo_id (string): string com isd dos resíduos. Exemplo: \"1, 3, 5, 9, 10\".\n        - localizacao (str): termo que corresponde a parte de uma localização.\n        - page (int): Número da página.\n        - page_size (int): Número de registros por página.\n        - page_size (int): Número de registros por página.\n\n**Retorna**:\n    Um objeto JSON com a lista de ecopontos filtrados pelos critérios informados e informações\n    de paginação.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcoponto"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EcopontoLocalizacaoResiduo"
+                }
+              }
+            }
+          },
+          "summary": "Cria um novo ecoponto.",
+          "description": "**Descrição**: Cria um novo ecoponto.\n\n**Parâmetros**:\n    ecoponto_data : dict\n    Dados recebidos para criar um novo ecoponto.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 201.\n        - status: Mensagem \"Created\".\n        - message: Mensagem vazia.\n        - value: Informações do ecoponto criado.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Deleta todos os ecopontos e suas relações associadas.",
+          "description": "**ATENÇÃO**: Deleta **TODOS** os ecopontos e suas relações associadas.\n\n**Retorna**:\n    Um objeto JSON contendo uma mensagem de confirmação.",
+          "tags": [
+            "Ecopontos"
+          ]
+        }
+      },
+      "/ecoponto/funcionamento": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcopontoFuncionamento"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EcopontoFuncionamento"
+                }
+              }
+            }
+          },
+          "summary": "Cria relação de dias de funcionamento de um ecoponto.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID  e cria a relação de dias de funcionamento.\n    Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_data : dict\n    Dados recebidos contendo o ID do ecoponto e a lista de dias de funcionamento a serem associados.\n\n**Retorna:**\n    Um objeto JSON com os ids do ecoponto e dos dias de funcionamento relacionados.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcopontoFuncionamento"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EcopontoFuncionamento"
+                }
+              }
+            }
+          },
+          "summary": "Atualiza relação de dias de funcionamento de um ecoponto.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID  e atualiza a relação de dias de funcionamento.\n    Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_data : dict\n    Dados recebidos contendo o ID do ecoponto e a lista de dias de funcionamento a serem associados.\n\n**Retorna:**\n    Um objeto JSON com os ids do ecoponto e dos dias de funcionamento relacionados.",
+          "tags": [
+            "Ecopontos"
+          ]
+        }
+      },
+      "/ecoponto/residuo": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcopontoResiduo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EcopontoResiduo"
+                }
+              }
+            }
+          },
+          "summary": "Cria relação de resíduos de um ecoponto.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID, busca cada um dos resíduos pelo iD informado e\n    cria relação com o ecoponto.\n    Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_data : dict\n    Dados recebidos contendo o ID do ecoponto e a lista de resíduos a serem associados.\n\n**Retorna:**\n    Um objeto JSON com os ids do ecoponto e dos resíduos relacionados.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcopontoResiduo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EcopontoResiduo"
+                }
+              }
+            }
+          },
+          "summary": "Atualiza relação de resíduos de um ecoponto.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID, busca cada um dos resíduos pelo iD informado e\n    atualiza relação com o ecoponto.\n    Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_data : dict\n    Dados recebidos contendo o ID do ecoponto e a lista de resíduos a serem associados.\n\n**Retorna:**\n    Um objeto JSON com os ids do ecoponto e dos resíduos relacionados.",
+          "tags": [
+            "Ecopontos"
+          ]
+        }
+      },
+      "/ecoponto/ativar/{ecoponto_id}": {
+        "put": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcoponto"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Ativa o ecoponto especificado pelo ID.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID fornecido e define seu campo 'ativo' como True.\nSe ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_id (int): O ID do ecoponto a ser ativado.\n\n**Retorna:**\n    Um objeto JSON com as informações do ecoponto ativado.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ecoponto_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/ecoponto/desativar/{ecoponto_id}": {
+        "put": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcoponto"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Desativa o ecoponto especificado pelo ID.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID fornecido e define seu campo 'ativo' como False.\nSe ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_id (int): O ID do ecoponto a ser desativado.\n\n**Retorna:**\n    Um objeto JSON com as informações do ecoponto desativado.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ecoponto_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/ecoponto/{situacao}/{ecoponto_id}": {
+        "put": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcoponto"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Atualiza a situação de um ecoponto.",
+          "description": "**Descrição:** Busca o ecoponto pelo ID fornecido e atualiza sua situação se a nova situação for válida.\nSe a situação não for válida, retorna um erro 400. Se ocorrer um erro durante a operação\nde banco de dados, retorna um erro 400 ou 500.\n\n**Parâmetros:**\n    ecoponto_id (int): O ID do ecoponto a ser atualizado.\n    situacao (str): A nova situação do ecoponto. [\"em_analise\", \"aprovado\", \"rejeitado\"].\n\n**Retorna:**\n    Um objeto JSON com as informações do ecoponto atualizado.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "situacao",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "in": "path",
+            "name": "ecoponto_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/ecoponto/{situacao}": {
+        "get": {
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "page_size",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoListaEcopontoLocalizacao"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna uma lista paginada de ecopontos filtrados pela situação especificada.",
+          "description": "**Descrição**: Filtra os ecopontos pela situação fornecida na URL, aplica paginação de acordo\ncom os parâmetros de consulta.\n\n**Parâmetros**:\n    query_args (dict): Argumentos de consulta para paginação.\n        - page (int): Número da página.\n        - page_size (int): Número de registros por página.\n    situacao (str): A situação dos ecopontos a serem filtrados [\"em_analise\", \"aprovado\", \"rejeitado\"].\n\n**Retorna**:\n    Um objeto JSON com a lista de ecopontos filtrados pela situação e informações\n    de paginação.",
+          "tags": [
+            "Ecopontos"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "situacao",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ]
+      },
+      "/ecoponto/situacao": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoEcopontoSituacao"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna a lista de todas as situações possíveis de um ecoponto.",
+          "description": "**Descrição**: Consulta o enum `SituacaoEnum` para obter todas as situações,\nformata cada situação em um dicionário.\n\n**Retorna**:\n    Um objeto JSON com a lista de todas as situações do ecoponto:\n    valor do enumerador e o valor para apresentar ao usuário",
+          "tags": [
+            "Ecopontos"
+          ]
+        }
+      },
+      "/ecoponto/controle": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EcopontoListaSituacao"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna uma lista de todos os ecopontos, agrupados por situação.",
+          "description": "**Descrição:** Recupera todos os ecopontos do banco de dados, organiza-os por suas situações\n e retorna um resumo contendo o total\nde ecopontos em cada situação e uma lista detalhada dos ecopontos.\n\n**Retorna:**\n    Um objeto JSON contendo o código de status, a mensagem, e os dados agrupados\n    por situação, incluindo o total de ecopontos e detalhes de cada ecoponto.",
+          "tags": [
+            "Ecopontos"
+          ]
+        }
+      },
+      "/categoria/{categoria_id}": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoCategoria"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Categorias"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Categoria"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainCategoria"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Categorias"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Categorias"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoria_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/categoria": {
+        "get": {
+          "parameters": [
+            {
+              "in": "query",
+              "name": "descricao",
+              "schema": {
+                "type": "string"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/RetornoCategoria"
+                    }
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna uma lista de categoria filtrados pelos critérios informados.",
+          "description": "**Descrição**: Filtra as categorias por palavra cheve, se informado.\nSerão retornadas apenas categorias ativas e que estão disponíveis para ecoponto.\n\n**Parâmetros**:\n    query_args (dict): Argumentos de consulta e para paginação.\n        - palavra_chave (str): descrição da categoria.\n\n    **Retorna**:\n        Um objeto JSON com a lista de categorias filtrados pelos critérios informados.",
+          "tags": [
+            "Categorias"
+          ]
+        },
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Categoria"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainCategoria"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Categorias"
+          ]
+        }
+      },
+      "/residuo/{residuo_id}": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoResiduo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Resíduos"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoResiduo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResiduoPost"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Resíduos"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Resíduos"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "residuo_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/residuo": {
+        "get": {
+          "parameters": [
+            {
+              "in": "query",
+              "name": "categoria_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "recolhe_ecoponto",
+              "schema": {
+                "type": "boolean"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "descricao",
+              "schema": {
+                "type": "string"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoResiduo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Resíduos"
+          ]
+        },
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoResiduo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResiduoPost"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Resíduos"
+          ]
+        }
+      },
+      "/publicacao/{publicacao_id}": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PublicacaoGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna os detalhes de uma publicação.",
+          "description": "**Descrição**: Retorna os detalhes de uma publicação.\n\n**Parâmetros**:\n    publicacao_id (int): ID da publicação a ser obtida.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 200.\n        - status: \"OK\".\n        - message: Mensagem vazia.\n        - value: Informações da publicação.",
+          "tags": [
+            "Publicações"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PublicacaoGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainPublicacao"
+                }
+              }
+            }
+          },
+          "summary": "Atualiza uma publicação existente.",
+          "description": "**Descrição**: Atualiza uma publicação existente.\n\n**Parâmetros**:\n    publicacao_data (dict): Dados recebidos para atualizar a publicação.\n    publicacao_id (int): ID da publicação a ser atualizada.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 200.\n        - status: \"OK\".\n        - message: Mensagem de sucesso ou erro.\n        - value: Informações da publicação atualizada.",
+          "tags": [
+            "Publicações"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Deleta uma publicação e suas seções associadas.",
+          "description": "**Descrição**: Deleta uma publicação e suas seções associadas.\n**Parâmetros**:\n    publicacao_id (int): ID da publicação a ser deletada.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 200.\n        - status: \"OK\".\n        - message: Mensagem de sucesso ou erro.\n        - errors: Erros ocorridos durante a operação.",
+          "tags": [
+            "Publicações"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "publicacao_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/publicacao": {
+        "get": {
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "page_size",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "residuo_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "categoria_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "ecoponto_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "palavra_chave",
+              "schema": {
+                "type": "string"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PublicacaoGetList"
+                    }
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna uma lista paginada de publicações filtrados pelos critérios informados.",
+          "description": "**Descrição**: Filtra as publicações pelo ID do resíduo, se informado, e pelos resíduos dos do ecoponto, se informado,\nou pelo ID da categoria, se informado. Se uma palavra-chave for informada, irá pesquisar no texto da publicação e seção.\nSerão retornadas apenas publicações e seções ativas.\n\n**Parâmetros**:\n    query_args (dict): Argumentos de consulta e para paginação.\n        - residuo_id (int): ID do resíduo.\n        - categoria_id (int): ID da categoria.\n        - ecoponto_id (int): ID do ecoponto.\n        - palavra_chave (str): Termo de pesquisa para buscar no texto da publicação e seção.\n        - page (int): Número da página.\n        - page_size (int): Número de registros por página.\n\n    **Retorna**:\n        Um objeto JSON com a lista de publicações filtrados pelos critérios informados e informações\n        de paginação.",
+          "tags": [
+            "Publicações"
+          ]
+        },
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PublicacaoGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicacaoPost"
+                }
+              }
+            }
+          },
+          "summary": "Cria uma nova publicação.",
+          "description": "**Descrição**: Cria uma nova publicação. A publicação pode receber uma lista de seção (não obrigatória).\n\n\n**Parâmetros**:\n    publicacao_data : dict\n    Dados recebidos para criar uma nova publicação.\n    Observação: são dados obrigatórios: título e descrição.\n    O campo ativo, se não informado, receberá o valor de verdadeira.\n    Isso vale para Publicação e para a Seção.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 201.\n        - status: Mensagem \"Created\".\n        - message: Mensagem vazia.\n        - value: Informações do publicacao criado.",
+          "tags": [
+            "Publicações"
+          ]
+        }
+      },
+      "/publicacao/secao/{publicacao_id}": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SecaoPublicacaoGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainSecaoPublicacao"
+                }
+              }
+            }
+          },
+          "summary": "Cria uma nova seção da publicação.",
+          "description": "**Descrição**: Cria uma nova seção para uma publicação existente.\n\n\n**Parâmetros**:\n    secao_data : dict\n    Dados recebidos para criar uma nova seção da publicação.\n    Observação: são dados obrigatórios: título e descrição.\n    O campo ativo, se não informado, receberá o valor de verdadeira.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 201.\n        - status: Mensagem \"Created\".\n        - message: Mensagem vazia.\n        - value: Informações da seção criada.",
+          "tags": [
+            "Publicações"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "publicacao_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/publicacao/secao/{secao_id}": {
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SecaoPublicacaoGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainSecaoPublicacao"
+                }
+              }
+            }
+          },
+          "summary": "Edita uma seção de uma publicação.",
+          "description": "**Descrição**: Edita uma seção de uma publicação.\n\n\n**Parâmetros**:\n    secao_data : dict\n    Dados recebidos para editar uma seção da publicação.\n    Observação: são dados obrigatórios: título e descrição.\n    O campo ativo, se não informado, receberá o valor de verdadeira.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 201.\n        - status: Mensagem \"Created\".\n        - message: Mensagem vazia.\n        - value: Informações da seção criada.",
+          "tags": [
+            "Publicações"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Deleta uma seção da publicação.",
+          "description": "**Parâmetros**:\n    secao_id (int): ID da seção a ser deletada.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 200.\n        - status: \"OK\".\n        - message: Mensagem de sucesso ou erro.\n        - errors: Erros ocorridos durante a operação.",
+          "tags": [
+            "Publicações"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "secao_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/artepublicitaria/{artepublicitaria_id}": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PlainArtePublicitariaGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna os detalhes de uma arte publicitária.",
+          "description": "**Descrição**: Retorna os detalhes de uma arte publicitária.\n\n**Parâmetros**:\n    artepublicitaria_id (int): ID da arte publicitária a ser obtida.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 200.\n        - status: \"OK\".\n        - message: Mensagem vazia.\n        - value: Informações da arte publicitária.",
+          "tags": [
+            "Arte Publicitária"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PlainArtePublicitariaGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainArtePublicitaria"
+                }
+              }
+            }
+          },
+          "summary": "Atualiza uma arte publicitária existente.",
+          "description": "**Descrição**: Atualiza uma arte publicitária existente.\n\n**Parâmetros**:\n    arte_publicitaria_data (dict): Dados recebidos para atualizar a arte publicitária.\n    artepublicitaria_id (int): ID da arte publicitária a ser atualizada.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 200.\n        - status: \"OK\".\n        - message: Mensagem de sucesso ou erro.\n        - value: Informações da arte publicitária atualizada.",
+          "tags": [
+            "Arte Publicitária"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Deleta uma arte publicitária.",
+          "description": "**Descrição**: Deleta uma arte publicitária.\n**Parâmetros**:\n    artepublicitaria_id (int): ID da arte publicitária a ser deletada.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 200.\n        - status: \"OK\".\n        - message: Mensagem de sucesso ou erro.\n        - errors: Erros ocorridos durante a operação.",
+          "tags": [
+            "Arte Publicitária"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "artepublicitaria_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/artepublicitaria": {
+        "get": {
+          "parameters": [
+            {
+              "in": "query",
+              "name": "page",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "page_size",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "residuo_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "ecoponto_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PlainArtePublicitariaGetList"
+                    }
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "summary": "Retorna uma lista paginada de artes publicitarias filtrados pelos critérios informados.",
+          "description": "**Descrição**: Filtra as artes publicitarias pelo ID do resíduo, se informado,\nou e pelos resíduos dos do ecoponto, se informado.\nSerão retornadas apenas artes publicitarias ativas e que estão disponíveis para ecoponto.\n\n**Parâmetros**:\n    query_args (dict): Argumentos de consulta e para paginação.\n        - residuo_id (int): ID do resíduo.\n        - ecoponto_id (int): ID do ecoponto.\n        - page (int): Número da página.\n        - page_size (int): Número de registros por página.\n\n    **Retorna**:\n        Um objeto JSON com a lista de artes publicitarias filtrados pelos critérios informados e informações\n        de paginação.",
+          "tags": [
+            "Arte Publicitária"
+          ]
+        },
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PlainArtePublicitariaGet"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainArtePublicitaria"
+                }
+              }
+            }
+          },
+          "summary": "Cria uma nova arte publicitária.",
+          "description": "**Descrição**: Cria uma nova arte publicitária.\n\n\n**Parâmetros**:\n    arte_publicitaria_data : dict\n    Dados recebidos para criar uma nova arte publicitária.\n    Observação: são dados obrigatórios: url_midia e descrição.\n    O campo ativo, se não informado, receberá o valor de verdadeira.\n\n**Retorna**:\n    Um objeto JSON contendo:\n        - code: Código HTTP 201.\n        - status: Mensagem \"Created\".\n        - message: Mensagem vazia.\n        - value: Informações do arte criado.",
+          "tags": [
+            "Arte Publicitária"
+          ]
+        }
+      },
+      "/termo/{termo_id}": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoTermo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Termos"
+          ]
+        },
+        "put": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoTermo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainTermo"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Termos"
+          ]
+        },
+        "delete": {
+          "responses": {
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Termos"
+          ]
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "termo_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ]
+      },
+      "/termo": {
+        "get": {
+          "parameters": [
+            {
+              "in": "query",
+              "name": "descricao",
+              "schema": {
+                "type": "string"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoTermoLista"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "tags": [
+            "Termos"
+          ]
+        },
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RetornoTermo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainTermo"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Termos"
+          ]
+        }
+      },
+      "/termo/eceite": {
+        "post": {
+          "responses": {
+            "422": {
+              "$ref": "#/components/responses/UNPROCESSABLE_ENTITY"
+            },
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AceiteTermo"
+                  }
+                }
+              }
+            },
+            "default": {
+              "$ref": "#/components/responses/DEFAULT_ERROR"
+            }
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AceiteTermo"
+                }
+              }
+            }
+          },
+          "tags": [
+            "Termos"
+          ]
+        }
+      }
+    },
+    "info": {
+      "title": "Ecoponto API",
+      "version": "v1"
+    },
+    "tags": [
+      {
+        "name": "Usuários",
+        "description": "Operações sobre o usuário"
+      },
+      {
+        "name": "Empresas",
+        "description": "Operações sobre empresas"
+      },
+      {
+        "name": "Ecopontos",
+        "description": "Operações sobre ecopontos"
+      },
+      {
+        "name": "Categorias",
+        "description": "Operações sobre categorias de resíduos"
+      },
+      {
+        "name": "Resíduos",
+        "description": "Operações sobre resíduos"
+      },
+      {
+        "name": "Publicações",
+        "description": "Operações sobre publicações"
+      },
+      {
+        "name": "Arte Publicitária",
+        "description": "Operações sobre arte publicitária"
+      },
+      {
+        "name": "Termos",
+        "description": "Operações sobre termos"
+      }
+    ],
+    "openapi": "3.0.3"
+  }
