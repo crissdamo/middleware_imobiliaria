@@ -11,3 +11,6 @@ class ImobiliariaModel(db.Model):
     email = db.Column(db.String, nullable=False)
     
     imoveis = db.relationship("ImovelModel", back_populates="imobiliaria", lazy="dynamic")
+
+    usuario_id = db.Column(db.Integer, db.ForeignKey("usuario.id"), unique=True, nullable=True)
+    usuario = db.relationship("UsuarioModel", back_populates="imobiliaria")

@@ -36,3 +36,20 @@ class ImobiliariaSchema(PlainImobiliariaSchema):
 
 class ImovelSchema(PlainImovelSchema):
     imobiliaria = fields.Nested(PlainImobiliariaSchema)
+
+
+
+class PlainUsuarioLoginSchema(Schema):
+    id = fields.Int(dump_only=True)
+    email = fields.Str(required=True)
+    senha = fields.Str(required=True, load_only=True)
+
+class PlainTokenSchema(Schema):
+    access_token = fields.Str()
+    refresh_token = fields.Str()
+
+class UsuarioTokenSchema(Schema):
+    id = fields.Int(dump_only=True)
+    email = fields.Str(required=True)
+    imobiliaria = fields.Nested(PlainImobiliariaSchema)
+    token = fields.Nested(PlainTokenSchema)

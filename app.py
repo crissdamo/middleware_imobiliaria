@@ -14,6 +14,7 @@ from blocklist import BLOCKLIST
 
 from resources.imobiliaria import blp as ImobiliariaBlueprint
 from resources.imovel import blp as ImovelBlueprint
+from resources.usuario import blp as UsuarioBlueprint
 
 
 def create_app(db_url=None):
@@ -132,6 +133,7 @@ def create_app(db_url=None):
 
     api.register_blueprint(ImobiliariaBlueprint)
     api.register_blueprint(ImovelBlueprint)
+    api.register_blueprint(UsuarioBlueprint)
 
     LOGFILE = 'middleware.log'   #Log-File-Name
     LOGFILESIZE = 5000000    #Log-File-Size (bytes)
