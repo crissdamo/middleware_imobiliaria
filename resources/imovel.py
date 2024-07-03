@@ -7,10 +7,8 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from extensions.database import db
 from models.imovel import ImovelModel
 from schema import ImovelSchema, PlainImovelSchema, PlainImovelSchema
-from utilities import apenas_digitos
-from utilities.valida_cnpj import validar_cnpj
-from utilities.valida_email import validar_email
-from utilities.valida_telefone import validar_telefone
+from security import jwt_required_with_doc
+
 
 blp = Blueprint("Imovel", "imovel", description="Operações sobre imovel")
 
@@ -18,10 +16,22 @@ blp = Blueprint("Imovel", "imovel", description="Operações sobre imovel")
 @blp.route("/imovel")
 class Imovel(MethodView):
 
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.arguments(PlainImovelSchema)
     @blp.response(201, ImovelSchema)
     def post(self, imovel_data):
+        """
+        Cria um novo imóvel.
+
+        **Descrição:** Recebe os dados de um novo imóvel, valida e persiste no banco de dados.
+        Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.
+
+        **Parâmetros:**
+            imovel_data (dict): Os dados do imóvel a ser criado.
+
+        **Retorna:**
+            Um objeto JSON com as informações do imóvel criado.
+        """
 
         # Dados recebidos:
         
@@ -85,9 +95,18 @@ class Imovel(MethodView):
 
         return jsonify(result)
     
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.response(200, ImovelSchema)
     def get(self,):
+        """
+        Lista todos os imóveis.
+
+        **Descrição:** Busca e retorna todos os imóveis cadastrados no banco de dados.
+        Se ocorrer um erro durante a operação de banco de dados, retorna um erro 500.
+
+        **Retorna:**
+            Uma lista de objetos JSON com as informações dos imóveis.
+        """
         result_lista = []
         imoveis = ImovelModel().query.all()
 
@@ -102,10 +121,23 @@ class Imovel(MethodView):
 @blp.route("/imovel/<int:id>")
 class ImovelID(MethodView):
 
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.arguments(PlainImovelSchema)
     @blp.response(201, ImovelSchema)
     def put(self, imovel_data, id):
+        """
+        Atualiza um imóvel existente.
+
+        **Descrição:** Recebe os dados de um imóvel existente e atualiza suas informações no banco de dados.
+        Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.
+
+        **Parâmetros:**
+            imovel_data (dict): Os dados do imóvel a ser atualizado.
+            id (int): O ID do imóvel a ser atualizado.
+
+        **Retorna:**
+            Um objeto JSON com as informações do imóvel atualizado.
+        """
 
         imovel = ImovelModel().query.get_or_404(id)
 
@@ -166,17 +198,41 @@ class ImovelID(MethodView):
 
         return jsonify(result)
     
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.response(200, ImovelSchema)
     def get(self, id):
+        """
+        Busca um imóvel pelo seu ID.
+
+        **Descrição:** Busca o imóvel pelo ID e retorna suas informações.
+        Se ocorrer um erro durante a operação de banco de dados, retorna um erro 404 ou 500.
+
+        **Parâmetros:**
+            id (int): O ID do imóvel a ser buscado.
+
+        **Retorna:**
+            Um objeto JSON com as informações do imóvel.
+        """
         imovel = ImovelModel().query.get_or_404(id)
         imovel_schema = ImovelSchema()
         result = imovel_schema.dump(imovel)
         return jsonify(result)
     
-    # @jwt_required_with_doc()
-
+    @jwt_required_with_doc()
     def delete(self, id):
+        """
+            Deleta um imóvel pelo seu ID.
+
+            **Descrição:** Remove o imóvel com o ID especificado do banco de dados.
+            Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.
+
+            **Parâmetros:**
+                id (int): O ID do imóvel a ser deletado.
+
+            **Retorna:**
+                Um objeto JSON com uma mensagem de confirmação.
+        """
+        
         
         try:
             imovel = ImovelModel().query.get_or_404(id)

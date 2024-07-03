@@ -20,10 +20,22 @@ blp = Blueprint("Imobiliaria", "imobiliaria", description="Operações sobre imo
 @blp.route("/imobiliaria")
 class Imobiliaria(MethodView):
 
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.arguments(PlainImobiliariaSchema)
     @blp.response(201, ImobiliariaSchema)
     def post(self, imobiliaria_data):
+        """
+        Cria uma nova imobiliária.
+
+        **Descrição:** Recebe os dados de uma nova imobiliária, valida e persiste no banco de dados.
+        Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.
+
+        **Parâmetros:**
+            imobiliaria_data (dict): Os dados da imobiliária a ser criada.
+
+        **Retorna:**
+            Um objeto JSON com as informações da imobiliária criada.
+        """
 
         # Dados recebidos:
         
@@ -102,9 +114,19 @@ class Imobiliaria(MethodView):
 
         return jsonify(result)
     
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.response(200, ImobiliariaSchema)
     def get(self,):
+        """
+            Lista todas as imobiliárias.
+
+            **Descrição:** Busca e retorna todas as imobiliárias cadastradas no banco de dados.
+            Se ocorrer um erro durante a operação de banco de dados, retorna um erro 500.
+
+            **Retorna:**
+                Uma lista de objetos JSON com as informações das imobiliárias.
+        """
+
         result_lista = []
         imobiliarias = ImobiliariaModel().query.all()
 
@@ -119,10 +141,23 @@ class Imobiliaria(MethodView):
 @blp.route("/imobiliaria/<int:id>")
 class ImobiliariaID(MethodView):
 
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.arguments(PlainImobiliariaSchema)
     @blp.response(201, ImobiliariaSchema)
     def put(self, imobiliaria_data, id):
+        """
+        Atualiza uma imobiliária existente.
+
+        **Descrição:** Recebe os dados de uma imobiliária existente e atualiza suas informações no banco de dados.
+        Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.
+
+        **Parâmetros:**
+            imobiliaria_data (dict): Os dados da imobiliária a ser atualizada.
+            id (int): O ID da imobiliária a ser atualizada.
+
+        **Retorna:**
+            Um objeto JSON com as informações da imobiliária atualizada.
+        """
 
         imobiliaria = ImobiliariaModel().query.get_or_404(id)
 
@@ -203,17 +238,40 @@ class ImobiliariaID(MethodView):
 
         return jsonify(result)
     
-    # @jwt_required_with_doc()
+    @jwt_required_with_doc()
     @blp.response(200, ImobiliariaSchema)
     def get(self, id):
+        """
+            Busca uma imobiliária pelo seu ID.
+
+            **Descrição:** Busca a imobiliária pelo ID e retorna suas informações.
+            Se ocorrer um erro durante a operação de banco de dados, retorna um erro 404 ou 500.
+
+            **Parâmetros:**
+                id (int): O ID da imobiliária a ser buscada.
+
+            **Retorna:**
+                Um objeto JSON com as informações da imobiliária.
+        """
         imobiliaria = ImobiliariaModel().query.get_or_404(id)
         imobiliaria_schema = ImobiliariaSchema()
         result = imobiliaria_schema.dump(imobiliaria)
         return jsonify(result)
     
-    
+    @jwt_required_with_doc()
     def delete(self, id):
-        
+        """
+        Deleta uma imobiliária pelo seu ID.
+
+        **Descrição:** Remove a imobiliária com o ID especificado do banco de dados.
+        Se ocorrer um erro durante a operação de banco de dados, retorna um erro 400 ou 500.
+
+        **Parâmetros:**
+            id (int): O ID da imobiliária a ser deletada.
+
+        **Retorna:**
+            Um objeto JSON com uma mensagem de confirmação.
+        """
         try:
             imobiliaria = ImobiliariaModel().query.get_or_404(id)
             db.session.delete(imobiliaria)
